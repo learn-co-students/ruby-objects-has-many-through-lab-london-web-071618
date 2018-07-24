@@ -1,8 +1,11 @@
+require_relative "../lib/patient.rb"
+require_relative "../lib/appointment.rb"
+
 class Doctor
 
-attr_accessor :name, :data, :patient
+  attr_accessor :name
 
-@@all = []
+  @@all = []
 
   def initialize(name)
     @name = name
@@ -13,8 +16,17 @@ attr_accessor :name, :data, :patient
     @@all
   end
 
-  def new_appointment
-    new_appointment = Appointment.new(data, patient)
+  def appointments
+    Appointment.all.select {|appointment| appointment.doctor == self}
   end
+
+  def patients
+    appointments.map {|appointment| appointment.patient}
+  end
+
+  def new_appointment(patient, date)
+    Appointment.new(patient, self, date)
+  end
+
 
 end
